@@ -1,0 +1,21 @@
+{
+  "type": "panel",
+  "name": "Sankey Panel",
+  "id": "sankey-transition",
+  "dataFormats": ["table"],
+  "info": {
+    "description": "Sankey Transition Panel",
+    "author": {
+      "name": "Nam Le"
+    },
+    "keywords": ["transition", "sankey"],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+
+  "dependencies": {
+    "grafanaVersion": "6.3.x",
+    "plugins": []
+  }
+}
