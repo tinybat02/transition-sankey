@@ -37626,6 +37626,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var BLURRED_LINK_OPACITY = 0.3;
+var FOCUSED_LINK_OPACITY = 0.6;
 
 var MainPanel =
 /** @class */
@@ -37637,7 +37639,8 @@ function (_super) {
 
     _this.state = {
       nodes: [],
-      links: []
+      links: [],
+      activeLink: null
     };
     return _this;
   }
@@ -37667,10 +37670,32 @@ function (_super) {
     });
   };
 
+  MainPanel.prototype._renderHint = function () {
+    var _a;
+
+    var activeLink = this.state.activeLink; // calculate center x,y position of link for positioning of hint
+
+    if (activeLink) {
+      var x = activeLink.source.x1 + (activeLink.target.x0 - activeLink.source.x1) / 2;
+      var y = activeLink.y0 - (activeLink.y0 - activeLink.y1) / 2;
+      var hintValue = (_a = {}, _a[activeLink.source.name + " \u279E " + activeLink.target.name] = activeLink.value, _a);
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_3__["Hint"], {
+        x: x,
+        y: y,
+        value: hintValue
+      });
+    }
+
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null);
+  };
+
   MainPanel.prototype.render = function () {
+    var _this = this;
+
     var _a = this.props,
         width = _a.width,
         height = _a.height;
+    var activeLink = this.state.activeLink;
     var _b = this.state,
         nodes = _b.nodes,
         links = _b.links;
@@ -37680,16 +37705,33 @@ function (_super) {
     }
 
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_vis__WEBPACK_IMPORTED_MODULE_3__["Sankey"], {
-      nodes: nodes,
-      links: links,
+      nodes: nodes.map(function (d) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, d);
+      }),
+      links: links.map(function (d, i) {
+        return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])(Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, d), {
+          opacity: activeLink && i === activeLink.index ? FOCUSED_LINK_OPACITY : BLURRED_LINK_OPACITY
+        });
+      }),
       width: width,
       height: height,
       style: {
         labels: {
           font: 20
         }
+      },
+      hasVoronoi: false,
+      onLinkMouseOver: function onLinkMouseOver(node) {
+        return _this.setState({
+          activeLink: node
+        });
+      },
+      onLinkMouseOut: function onLinkMouseOut() {
+        return _this.setState({
+          activeLink: null
+        });
       }
-    });
+    }, activeLink && this._renderHint());
   };
 
   return MainPanel;

@@ -1,21 +1,23 @@
-# Simple React Panel
+# Sankey diagram
 
-This is just a stub to show how you can create a basic visualization plugin.
+This is a sankey diagram to represent transition in Grafana
 
 To work with this plugin run:
+
 ```
-yarn dev
+npm run dev
 ```
 
 or
+
 ```
-yarn watch
+npm run watch
 ```
 
 This will run linting tools and apply prettier fix.
 
-
 To build the plugin run:
+
 ```
-yarn build
+npm run build
 ```
